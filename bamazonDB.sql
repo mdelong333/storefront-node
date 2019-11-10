@@ -18,7 +18,7 @@ stock_quantity INTEGER,
 PRIMARY KEY (item_id)
 );
 
---create new rows into columns
+
 INSERT INTO products (item_id, product_name, department_name, price, stock_quantity)
 VALUES (null, "candles", "home", 10.65, 15),
 (null, "fiction novels", "books", 10.50, 40),
