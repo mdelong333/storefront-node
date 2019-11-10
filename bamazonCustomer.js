@@ -9,6 +9,7 @@ var connection = mysql.createConnection({
     user: "root",
 
     password: "docker",
+
     database: "bamazonDB"
 });
 
@@ -16,7 +17,6 @@ connection.connect(function(err) {
     if (err) throw err;
     console.log("connected as id " + connection.threadId);
     displayProducts();
-    purchasePrompt();
 });
 
 //display all items
@@ -28,20 +28,25 @@ function displayProducts() {
             ${res[i].item_id} | ${res[i].product_name} | ${res[i].department_name} | ${res[i].price} | ${res[i].stock_quantity}
             ----------------------------------------------------`);
         };
+
+        purchasePrompt();
     });
 };
 
+//function for purchase prompt
 function purchasePrompt() {
     inquirer.prompt([
         {
             name: "purchaseID",
             type: "input",
-            message: "What is the ID of the product you would like to purchase?"
+            message: "What is the ID of the product you would like to purchase?",
+            filter: Number
         },
         {
             name: "purchaseQuantity",
             type: "input",
-            message: "How many would you like to purchase?"
+            message: "How many would you like to purchase?",
+            filter: Number
         },
         {
             type: "confirm",
@@ -52,11 +57,26 @@ function purchasePrompt() {
     ])
     .then(function(response) {
         if (response.confirm) {
-            //check that store has enough product to meet customer request
+            
             console.log(`
             Item: ${response.purchaseID}
             Quantity: ${response.purchaseQuantity}
-            `)
+            `);
+            
+            var query = "SELECT * FROM products WHERE ?";
+
+            //check that store has enough product to meet customer request
+            connection.query(query, {item_id: response.purchaseID}, function(err, data) {
+                if (err) throw err;
+
+                var currentStock = data[0].stock_quantity;
+
+                if (currentStock >= response.purchaseQuantity) {
+                    console.log("Order Accepted!")
+                } else {
+                    console.log("Insufficient stock!")
+                }
+            })
             
         }
     })
