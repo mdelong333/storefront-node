@@ -75,6 +75,7 @@ function purchasePrompt() {
                     console.log("Order Accepted!")
                 } else {
                     console.log("Insufficient stock!")
+                    purchasePrompt();
                 }
             })
             
