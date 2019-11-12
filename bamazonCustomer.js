@@ -125,6 +125,7 @@ function anotherPurchase() {
             displayProducts();
         } else {
             console.log("Thank you, please come again!");
+            connection.end();
         }
     })
 }
