@@ -77,6 +77,7 @@ function purchasePrompt() {
 
                 if (currentStock >= response.purchaseQuantity) {
                     var purchaseID = response.purchaseID;
+                    
                     var updateStock = currentStock - response.purchaseQuantity;
                     // console.log(updateStock);
 
@@ -126,6 +127,6 @@ function anotherPurchase() {
         } else {
             console.log("Thank you, please come again!");
             connection.end();
-        }
-    })
-}
+        };
+    });
+};
