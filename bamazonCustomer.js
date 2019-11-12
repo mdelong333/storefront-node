@@ -58,10 +58,10 @@ function purchasePrompt() {
     .then(function(response) {
         if (response.confirm) {
             
-            console.log(`
-            Item: ${response.purchaseID}
-            Quantity: ${response.purchaseQuantity}
-            `);
+            // console.log(`
+            // Item ID: ${response.purchaseID}
+            // Quantity: ${response.purchaseQuantity}
+            // `);
             
             var query = "SELECT * FROM products WHERE ?";
 
@@ -70,19 +70,61 @@ function purchasePrompt() {
                 if (err) throw err;
 
                 var currentStock = data[0].stock_quantity;
+                var description = data[0].product_name;
+                var department = data[0].department_name;
+                var unitPrice = data[0].price;
+
 
                 if (currentStock >= response.purchaseQuantity) {
-                    console.log("Order Accepted!")
+                    var purchaseID = response.purchaseID;
+                    var updateStock = currentStock - response.purchaseQuantity;
+                    // console.log(updateStock);
+
+                    updateAvailStock(updateStock, purchaseID);
+
+                    var totalPrice = unitPrice * response.purchaseQuantity;
+                    
+                    console.log(`
+                    Order Accepted!
+                    Item ID: ${response.purchaseID}
+                    Description: ${description}
+                    Department: ${department}
+                    Order Quantity: ${response.purchaseQuantity}
+                    Order Total: $${totalPrice}
+                    `);
+
+                    anotherPurchase();
+
                 } else {
-                    console.log("Insufficient stock!")
+                    console.log("Insufficient stock! Sorry, your order can not be placed.")
                     purchasePrompt();
-                }
-            })
-            
+                };
+            }); 
+        };
+    });
+};
+
+function updateAvailStock(updateStock, purchaseID) {
+    var query = "UPDATE products SET ? WHERE ?";
+    
+    connection.query(query, [{stock_quantity: updateStock}, {item_id: purchaseID}], function(err) {
+        if (err) throw err;
+    });
+};
+
+function anotherPurchase() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            message: "Would you like to make another purchase?",
+            name: "confirm",
+            default: true
+        }
+    ]).then(function(res) {
+        if (res.confirm) {
+            displayProducts();
+        } else {
+            console.log("Thank you, please come again!");
         }
     })
 }
-
-// function checkQuantity() {
-//     if (response)
-// }
