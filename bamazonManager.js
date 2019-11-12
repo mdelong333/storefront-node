@@ -87,13 +87,13 @@ function updateStock() {
     inquirer.prompt([
         {
             name: "itemID",
-            message: "Enter the ID of the product you'd like to update",
+            message: "Enter the ID of the product you'd like to update:",
             type: "input",
             filter: Number
         },
         {
             name: "newQuantity",
-            message: "Enter new inventory quantity",
+            message: "Enter new inventory quantity:",
             type: "input",
             filter: Number
         }
@@ -132,5 +132,69 @@ function updateMoreStock() {
 
 // If a manager selects Add New Product, it should allow the manager to add a completely new product to the store.
 function addNew() {
-    
-}
+
+    inquirer.prompt([
+        {
+            name: "productName",
+            message: "Enter new product name:",
+            type: "input",
+        },
+        {
+            name: "departmentName",
+            message: "Enter product department:",
+            type: "input",
+        },
+        {
+            name: "price",
+            message: "Enter price per unit:",
+            type: "input",
+            filter: Number
+        },
+        {
+            name: "stockQuantity",
+            message: "Enter new product stock quantity:",
+            type: "input",
+            filter: Number
+        }
+    ])
+    .then(function(res) {
+
+        connection.query("INSERT INTO products SET ?", 
+        {
+            product_name: res.productName,
+            department_name: res.departmentName,
+            price: res.price,
+            stock_quantity: res.stockQuantity
+        }, 
+        function(err) {
+            if (err) throw err
+        });
+
+        console.log(`
+        New item added! 
+        Product: ${res.productName}
+        Department: ${res.departmentName}
+        Price: ${res.price}
+        Quantity: ${res.stockQuantity}
+        ---------------------------------------\n`);
+
+        addAnother();
+    });
+};
+
+function addAnother() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            message: "Would you like to add another item?",
+            name: "confirm",
+            default: true
+        }
+    ]).then(function(res) {
+        if (res.confirm) {
+            addNew();
+        } else {
+            menuOptions();
+        };
+    });
+};
