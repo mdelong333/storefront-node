@@ -58,11 +58,6 @@ function purchasePrompt() {
     .then(function(response) {
         if (response.confirm) {
             
-            // console.log(`
-            // Item ID: ${response.purchaseID}
-            // Quantity: ${response.purchaseQuantity}
-            // `);
-            
             var query = "SELECT * FROM products WHERE ?";
 
             //check that store has enough product to meet customer request
@@ -73,17 +68,21 @@ function purchasePrompt() {
                 var description = data[0].product_name;
                 var department = data[0].department_name;
                 var unitPrice = data[0].price;
+                var productSales = data[0].product_sales;
 
 
                 if (currentStock >= response.purchaseQuantity) {
                     var purchaseID = response.purchaseID;
                     
                     var updateStock = currentStock - response.purchaseQuantity;
-                    // console.log(updateStock);
 
                     updateAvailStock(updateStock, purchaseID);
 
                     var totalPrice = unitPrice * response.purchaseQuantity;
+
+                    var updateSales = productSales + totalPrice;
+                    
+                    updateProductSales(updateSales, purchaseID);
                     
                     console.log(`
                     Order Accepted!
@@ -128,5 +127,13 @@ function anotherPurchase() {
             console.log("Thank you, please come again!");
             connection.end();
         };
+    });
+};
+
+function updateProductSales(updateSales, purchaseID) {
+    var query = "UPDATE products SET ? WHERE ?";
+    
+    connection.query(query, [{product_sales: updateSales}, {item_id: purchaseID}], function(err) {
+        if (err) throw err;
     });
 };

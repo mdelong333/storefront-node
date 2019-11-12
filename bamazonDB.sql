@@ -15,6 +15,8 @@ price DECIMAL(10, 2) NULL,
 
 stock_quantity INTEGER,
 
+product_sales DECIMAL(10, 2) NOT NULL DEFAULT "0.00",
+
 PRIMARY KEY (item_id)
 );
 
@@ -30,3 +32,15 @@ VALUES (null, "candles", "home", 10.65, 15),
 (null, "thread", "sewing", 3.97, 100),
 (null, "wine", "grocery", 27.97, 22),
 (null, "incense", "home", 9.93, 80);
+
+
+CREATE TABLE departments (
+
+department_id INTEGER AUTO_INCREMENT NOT NULL,
+
+department_name VARCHAR(30) NULL,
+
+over_head_costs DECIMAL(10, 2) NOT NULL DEFAULT "0.00",
+
+PRIMARY KEY (department_id)
+);
