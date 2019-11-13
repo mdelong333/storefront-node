@@ -6,7 +6,7 @@ Bamazon is an Amazon-like storefront. It is a CLI node app using MySQL database 
 
 ## Video Link
 
-![bamazon-video](https://youtu.be/7WJdSSNTIqc)
+[bamazon video](https://youtu.be/7WJdSSNTIqc)
 
 ## NPM packages
 
