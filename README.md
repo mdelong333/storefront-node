@@ -12,7 +12,7 @@ Bamazon is an Amazon-like storefront. It is a CLI node app using MySQL database 
 
 * `inquirer`
 * `mysql`
-* `console-report`
+* `easy-table`
 
 ## Customer.js
 
