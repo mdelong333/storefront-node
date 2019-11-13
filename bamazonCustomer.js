@@ -50,7 +50,7 @@ function purchasePrompt() {
         },
         {
             type: "confirm",
-            message: "Will this complete your purchase?",
+            message: "Is this information correct?",
             name: "confirm",
             default: true
         }
@@ -83,6 +83,8 @@ function purchasePrompt() {
                     var updateSales = productSales + totalPrice;
                     
                     updateProductSales(updateSales, purchaseID);
+
+                    // updateDepartmentSales(updateSales, department);
                     
                     console.log(`
                     Order Accepted!
@@ -90,7 +92,7 @@ function purchasePrompt() {
                     Description: ${description}
                     Department: ${department}
                     Order Quantity: ${response.purchaseQuantity}
-                    Order Total: $${totalPrice}
+                    Order Total: $${parseFloat(totalPrice).toFixed(2)}
                     `);
 
                     anotherPurchase();
@@ -100,6 +102,8 @@ function purchasePrompt() {
                     purchasePrompt();
                 };
             }); 
+        } else {
+            purchasePrompt();
         };
     });
 };
@@ -137,3 +141,12 @@ function updateProductSales(updateSales, purchaseID) {
         if (err) throw err;
     });
 };
+
+// function updateDepartmentSales(updateSales, department) {
+
+//     var query = "UPDATE departments SET ? WHERE ?";
+
+//     connection.query(query, [{product_sales: updateSales}, {department_name: department}], function(err) {
+//         if (err) throw err;
+//     });
+// };

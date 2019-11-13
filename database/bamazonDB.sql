@@ -24,7 +24,7 @@ PRIMARY KEY (item_id)
 INSERT INTO products (item_id, product_name, department_name, price, stock_quantity)
 VALUES (null, "candles", "home", 10.65, 15),
 (null, "fiction novels", "books", 10.50, 40),
-(null, "curtains", "home", 18.87, 25),
+(null, "curtains", "home", 18.80, 25),
 (null, "ouija board", "toys & games", 12.25, 8),
 (null, "cursed amulet", "occult", 1230.99, 1),
 (null, "large labradorite", "crystals", 32.89, 5),
@@ -40,7 +40,9 @@ department_id INTEGER AUTO_INCREMENT NOT NULL,
 
 department_name VARCHAR(30) NULL,
 
-over_head_costs DECIMAL(10, 2) NOT NULL DEFAULT "0.00",
+over_head_costs DECIMAL(10, 2) NOT NULL DEFAULT "1500",
+
+total_sales DECIMAL(10, 2) NOT NULL DEFAULT "0.00"
 
 PRIMARY KEY (department_id)
 );

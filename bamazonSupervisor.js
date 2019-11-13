@@ -1,6 +1,6 @@
 var mysql = require("mysql");
 var inquirer = require("inquirer");
-var table = require("console-report");
+var table = require("easy-table");
 
 var connection = mysql.createConnection({
     host: "localhost",
@@ -47,8 +47,12 @@ function menuOptions() {
 // When a supervisor selects View Product Sales by Department, the app should display a summarized table in their terminal/bash window.
 // The total_profit column should be calculated on the fly using the difference between over_head_costs and product_sales. total_profit should not be stored in any database. You should use a custom alias.
 function viewSales() {
-    connection.query()
-    table.generate()
+
+    var query = "SELECT * FROM departments"
+
+    connection.query(query, function(err) {
+        if (err) throw err;
+    });
 };
 
 function createDepartment() {
