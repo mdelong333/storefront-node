@@ -48,13 +48,58 @@ function menuOptions() {
 // The total_profit column should be calculated on the fly using the difference between over_head_costs and product_sales. total_profit should not be stored in any database. You should use a custom alias.
 function viewSales() {
 
-    var query = "SELECT * FROM departments"
+    var t = new table();
 
-    connection.query(query, function(err) {
+    var query = "SELECT department_name FROM products"
+
+    connection.query(query, function(err, res) {
         if (err) throw err;
+        
     });
+
 };
 
 function createDepartment() {
 
+    inquirer.prompt([
+        {
+            name: "departmentName",
+            message: "Enter new department name:",
+            type: "input",
+        },
+    ])
+    .then(function(res) {
+
+        connection.query("INSERT INTO departments SET ?", 
+        {
+            department_name: res.departmentName,
+        }, 
+        function(err) {
+            if (err) throw err
+        });
+
+        console.log(`
+        New department added! 
+        Department: ${res.departmentName}
+        ---------------------------------------\n`);
+
+        addAnother();
+    });
+};
+
+function addAnother() {
+    inquirer.prompt([
+        {
+            type: "confirm",
+            message: "Would you like to add another department?",
+            name: "confirm",
+            default: true
+        }
+    ]).then(function(res) {
+        if (res.confirm) {
+            addNew();
+        } else {
+            menuOptions();
+        };
+    });
 };
