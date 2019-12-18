@@ -21,7 +21,3 @@ Allows user to select product and quantity to purchase, displays completed order
 ## Manager.js
 
 Allows manager to view all products in inventory, view low inventory, increase inventory quantities, and add new products to inventory.
-
-## Supervisor.js (not yet functioning)
-
-Allows supervisor to view product sales by department and add new departments.
